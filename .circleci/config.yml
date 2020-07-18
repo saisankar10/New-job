@@ -7,9 +7,7 @@ jobs:
       - checkout
       - run: echo "DemoBuild"
       - run: echo "Install Jfrog CLI"
-      - run:
-         name: " Install Jfrog CLI"
-         command: "curl -fL https://getcli.jfrog.io | sh
+      - run: curl -fL https://getcli.jfrog.io | sh
       - run: ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD --interactive=false
       - run: touch "build-artifacts"
       - run: ./jfrog rt c show
