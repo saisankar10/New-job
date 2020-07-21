@@ -11,4 +11,9 @@ jobs:
       - run: ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD --interactive=false
       - run: touch "build-artifacts"
       - run: ./jfrog rt c show
-      - run: ./jfrog rt u "build-artifacts" "Demo-npm-local" --build-name=JCircleCI-Demo --build-number=$CIRCLE_BUILD_NUM --flat=true
+      - run: ./jfrog rt npmi npm-virtual-demo --build-name=bootstrap --build-number=1.0.0
+      - run: ./jfrog rt bag bootstrap 1.0.0
+      - run: ./jfrog rt bce bootstrap 1.0.0
+      - run: ./jfrog rt npmp npm-virtual-demo --build-name=bootstrap --build-number=1.0.0
+      - run: ./jfrog rt bp bootstrap 1.0.0
+      - run: ./jfrog rt bpr bootstrap 1.0.0 npm-virtual-demo
