@@ -11,6 +11,7 @@ jobs:
       - run: ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD --interactive=false
       - run: touch "build-artifacts"
       - run: ./jfrog rt c show
+      - run: ./jfrog rt npmc
       - run: ./jfrog rt npmi npm-virtual-demo --build-name=bootstrap --build-number=1.0.0
       - run: ./jfrog rt bag bootstrap 1.0.0
       - run: ./jfrog rt bce bootstrap 1.0.0
