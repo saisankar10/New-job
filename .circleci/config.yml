@@ -1,6 +1,7 @@
 version: 2.1
 jobs:
   run_tests:
+    working_directory: ~/repo
     docker:
       - image: circleci/node:12
     steps:
@@ -9,9 +10,14 @@ jobs:
           name: Install npm dependencies
           command: |
             npm install --save
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN"
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Revoke npm token
           command: npm token list 
