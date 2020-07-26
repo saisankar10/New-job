@@ -24,6 +24,10 @@ jobs:
 
   
 workflows:
-  build_test:
+ build_test:
+   triggers:
+      - schedule:
+          cron: "5 0 * * *"
+  
     jobs:
       - run_tests
