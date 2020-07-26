@@ -20,10 +20,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Revoke npm token
-          command: npm token list 
-      - run:
-          name: Create a new token
-          command: npm token create
+          command: npm token revoke $npm_id
 
   
 workflows:
