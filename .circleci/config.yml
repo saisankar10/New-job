@@ -24,9 +24,9 @@ jobs:
 
   
 workflows:
- build_test:
+ Scheduled-workflow:
    triggers:
       - schedule:
           cron: "5 0 * * *"
-    jobs:
+   jobs:
       - run_tests
