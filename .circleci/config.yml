@@ -28,6 +28,5 @@ workflows:
    triggers:
       - schedule:
           cron: "5 0 * * *"
-  
     jobs:
       - run_tests
