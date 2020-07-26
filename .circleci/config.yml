@@ -14,10 +14,10 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN"
       - run:
           name: Revoke npm token
-          command: npm token revoke -all
-	  - run:
-	      name: Create a new token
-		  command: npm token create
+          command: npm token revoke 
+      - run:
+          name: Create a new token
+	  command: npm token create
 
   
 workflows:
