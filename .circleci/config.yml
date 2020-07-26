@@ -17,7 +17,7 @@ jobs:
           command: npm token revoke 
       - run:
           name: Create a new token
-	  command: npm token create
+          command: npm token create
 
   
 workflows:
