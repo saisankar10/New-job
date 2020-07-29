@@ -1,16 +1,27 @@
 {
-  "name": "demoproject",
-  "version": "1.0.0",
-  "description": "",
+  "name": "nodejs-circleci",
+  "version": "0.0.7",
+  "description": "nodejs-circleci",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "directories": {
+    "test": "test"
   },
-  "author": "",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saisankar10/Npm-CircleCI-Jfrog.git"
+  },
+  "author": "Sai Sankar",
   "license": "ISC",
+  "homepage": "https://github.com/saisankar10/Npm-CircleCI-Jfrog.git#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "math-random": "^1.0.4",
-    "uglify-js": "^3.10.0"
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mochawesome": "^4.1.0",
+    "request": "^2.88.0"
   }
 }
