@@ -1,35 +1,102 @@
 version: 2.1
 jobs:
-  run_tests:
+  build:
     working_directory: ~/repo
-    docker:
-      - image: circleci/node:12
+    machine:
+        image: 'ubuntu-1604:201903-01'
     steps:
       - checkout
       - run:
           name: Install npm dependencies
           command: |
-            npm install --save
+            apt-get install python-software-properties
+      - run: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash –
+      - run: apt-get install nodejs
+      - run: npm -v
       - persist_to_workspace:
           root: ~/repo
           paths: .
       - attach_workspace:
           at: ~/repo
+      - run: echo "Install Jfrog CLI"
+      - run: cd ~/repo
+      - run: curl -fL https://getcli.jfrog.io | sh
+      - run: ./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --password $ARTIFACTORY_PASSWORD --interactive=false
+      - run: ./jfrog rt dl "Demo-npm-local/nodejs-circleci/-/" --sort-by=created --sort-order=desc --limit=1
+      - run: ./jfrog rt c show
+      - run: cd ~/repo
+      - run: ls -lrt
+      - run: tar -C ~/repo -xvf nodejs-circleci/-/*.tgz
+      #- run: tar -C ~/repo -xvf ~/repo/nodejs-circleci/-/nodejs-circleci-0.0.4.tgz
+      #- run: dir ~/repo/package
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      #- run: vi ~/repo/.npmrc
       - run:
-          name: Revoke npm token
-          command: npm token revoke $npm_id
+          name: Publish npm package
+          command: cd ~/repo && npm publish
+  Slack_setup:
+    machine:
+        image: 'ubuntu-1604:201903-01'
+    steps:
+       - slack/approval:
+          message: "Deployment Pending for Approvals 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'" # Optional: Enter your own message
+          mentions: "W015C9HCQSH,W01232MH4GM,W016RHZPZ1A" # Optional: Enter the Slack IDs of any user or group (sub_team) to be mentioned
+          color: "#42e2f4" # Optional: Assign custom colors for each approval message
+          webhook: "$SLACK_WEBHOOK" # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
+          url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
+  Level2_Approvals:
+    machine:
+        image: 'ubuntu-1604:201903-01'
+    steps:
+       - slack/approval:
+          message: "Deployment Pending for Approvals level2 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'" # Optional: Enter your own message
+          mentions: "sai.sankar@crypto.com" # Optional: Enter the Slack IDs of any user or group (sub_team) to be mentioned
+          color: "#42e2f4" # Optional: Assign custom colors for each approval message
+          webhook: "$SLACK_WEBHOOK" # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
+          url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
+  Level3_Approvals:
+    machine:
+        image: 'ubuntu-1604:201903-01'
+    steps:
+       - slack/approval:
+          message: "Deployment Pending for Approvals Level3 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'" # Optional: Enter your own message
+          mentions: "sai.sankar@crypto.com" # Optional: Enter the Slack IDs of any user or group (sub_team) to be mentioned
+          color: "#42e2f4" # Optional: Assign custom colors for each approval message
+          webhook: "$SLACK_WEBHOOK" # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
+          url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
+      
+    
 
-  
+orbs:
+  slack: circleci/slack@3.4.2
 workflows:
- Scheduled-workflow:
-   triggers:
-      - schedule:
-          cron: "5 0 * * *"
-          filters:
-            branches:
-              only: master
-   jobs:
-      - run_tests
+  your-workflow:
+    jobs:
+      - build
+      #- Slack_setup:
+      #      requires:
+      #        - build
+      #- hold:
+      #      type: approval
+      #      requires:
+      #        - Slack_setup
+      #- Level2_Approvals:
+      #      requires:
+      #        - hold
+      #- hold2:
+      #      type: approval
+      #      requires: 
+      #        - Level2_Approvals              
+      #- Level3_Approvals:
+      #      requires:
+      #        - hold2
+      #- hold3:
+      #      type: approval
+      #      requires:
+      #        - Level3_Approvals
+      #- Publish_Npm_registry:
+           # requires:
+            #- build
+      
