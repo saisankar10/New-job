@@ -33,7 +33,7 @@ jobs:
       #- run: vi ~/repo/.npmrc
       - run:
           name: Publish npm package
-          command: cd ~/repo && npm publish
+          command: cd ~/repo/package && npm publish
   Slack_setup:
     machine:
         image: 'ubuntu-1604:201903-01'
