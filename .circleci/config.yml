@@ -7,7 +7,7 @@ jobs:
         #- image: circleci/node:12
     steps:
       - checkout
-      - run: apt-get install python-software-properties
+      #- run: apt-get install python-software-properties
       - run: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash –
       - run: apt-get install nodejs
       - run: npm -v
