@@ -31,9 +31,11 @@ jobs:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run: ls -lrt ~/repo/package
+      - run: cd ~/repo/package
+      - run: ls -lrt
       - run:
           name: Publish npm package
-          command: cd ~/repo/package && npm publish
+          command: npm publish
   Slack_setup:
     machine:
         image: 'ubuntu-1604:201903-01'
