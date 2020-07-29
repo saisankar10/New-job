@@ -2,14 +2,12 @@ version: 2.1
 jobs:
   build:
     working_directory: ~/repo
-    machine:
-        image: 'ubuntu-1604:201903-01'
+    docker: 
+        - image: circleci/ubuntu-server
+        #- image: circleci/node:12
     steps:
       - checkout
-      - run:
-          name: Install npm dependencies
-          command: |
-            apt-get install python-software-properties
+      - run: apt-get install python-software-properties
       - run: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash –
       - run: apt-get install nodejs
       - run: npm -v
