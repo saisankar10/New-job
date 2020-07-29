@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       #- run: apt-get install python-software-properties
-      - run: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash –
-      - run: apt-get install nodejs
+      - run: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+      - run:  sudo apt-get install nodejs
       - run: npm -v
       - persist_to_workspace:
           root: ~/repo
