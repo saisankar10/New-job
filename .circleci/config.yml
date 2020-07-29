@@ -10,10 +10,6 @@ jobs:
           name: Install npm dependencies
           command: |
             npm install --save
-      #- run:
-      #    name: Run Unit Tests
-      #    command: |
-      #      ./node_modules/mocha/bin/mocha test/ --reporter mochawesome --reporter-options reportDir=test-results,reportFilename=test-results
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -23,15 +19,18 @@ jobs:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Publish package
-          command: npm publish
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
+          name: Revoke npm token
+          command: npm token revoke $npm_id
+
   
 workflows:
-  build_test:
-    jobs:
+ Scheduled-workflow:
+   triggers:
+      - schedule:
+          cron: "5 0 * * *"
+          filters:
+            branches:
+              only: 
+			          - master
+   jobs:
       - run_tests
-      
