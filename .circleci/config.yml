@@ -6,7 +6,7 @@ jobs:
     steps:
        - slack/approval:
           message: "Time to Change the Authentication Token, Please access the URL and Approve to proceed to revoke the existing Token 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'" # Optional: Enter your own message
-          mentions: "W015C9HCQSH,W01232MH4GM,W016RHZPZ1A" # Optional: Enter the Slack IDs of any user or group (sub_team) to be mentioned
+          mentions: "W016RHZPZ1A" # Optional: Enter the Slack IDs of any user or group (sub_team) to be mentioned
           color: "#42e2f4" # Optional: Assign custom colors for each approval message
           webhook: "$SLACK_WEBHOOK" # Optional: Enter a specific webhook here or the default will use $SLACK_WEBHOOK
           url: 'https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}'
@@ -45,4 +45,24 @@ workflows:
         - Revoke_Auth_token:
             requires:
               - hold
+#    monthly:
+#      triggers:
+#        - schedule:
+#          cron: "0 0 * * *"
+#          filters:
+#            branches:
+#              only:
+#                - master
+#    jobs:
+#        - Slack_setup
+#         - hold:
+#            type: approval
+#            requires:
+#              - Slack_setup
+#        - Revoke_Auth_token:
+#            requires:
+#              - hold       
+              
+              
+       
         
