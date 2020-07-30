@@ -25,12 +25,5 @@ jobs:
   
 workflows:
  Scheduled-workflow:
-   triggers:
-      - schedule:
-          cron: "5 0 * * *"
-          filters:
-            branches:
-              only:                                                                                                                                                                            
-                - master
    jobs:
       - run_tests
