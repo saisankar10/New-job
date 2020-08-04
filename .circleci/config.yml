@@ -30,7 +30,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
           name: Revoke npm token
-          command: npm token revoke $npm_id
+          command: npm token revoke $npm_TOKEN
 orbs:
   slack: circleci/slack@3.4.2
   
